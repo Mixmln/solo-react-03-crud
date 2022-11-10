@@ -5,14 +5,14 @@ import TableComp from '../components/TableComp';
 import MainContext from '../context/MainContext';
 
 function MainPage() {
-  const { products, setProducts } = useContext(MainContext);
+  const { products, setProducts, CUCompTrigger, setCUCompTrigger } = useContext(MainContext);
 
   return (
     <div className='main-page'>
       <SelectComp></SelectComp>
       <div className='all-products'>
         <TableComp></TableComp>
-        <AddProdComp></AddProdComp>
+        {!CUCompTrigger && <AddProdComp></AddProdComp>}
       </div>
     </div>
   );

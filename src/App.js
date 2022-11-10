@@ -9,11 +9,15 @@ function App() {
 
   const [selectedFilter, setSelectedFilter] = useState('Visi produktai');
 
+  const [CUCompTrigger, setCUCompTrigger] = useState(false);
+
   const states = {
     products,
     setProducts,
     selectedFilter,
     setSelectedFilter,
+    CUCompTrigger,
+    setCUCompTrigger,
   };
 
   return (

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import MainContext from '../context/MainContext';
-import { postReq } from '../helpers/http';
+import { deleteReq, postReq } from '../helpers/http';
 
 function AddProdComp() {
-  const { products, setProducts } = useContext(MainContext);
+  const { products, setProducts, CUCompTrigger, setCUCompTrigger } = useContext(MainContext);
 
   const titleRef = useRef();
   const priceRef = useRef();
@@ -28,6 +28,19 @@ function AddProdComp() {
     }
   };
 
+  const resetInputs = () => {
+    titleRef.current.value = '';
+    priceRef.current.value = '';
+    foodCatRef.current.checked = false;
+    fruitCatRef.current.checked = false;
+    dairyCatRef.current.checked = false;
+    toyCatRef.current.checked = false;
+    weighedCatRef.current.checked = false;
+    nutsCatRef.current.checked = false;
+    sweetsCatRef.current.checked = false;
+    descriptionRef.current.value = '';
+  };
+
   const addNewProd = async () => {
     const newProd = {
       title: titleRef.current.value,
@@ -39,8 +52,12 @@ function AddProdComp() {
     const result = await postReq(newProd, 'createProd');
     if (result.error === false) {
       console.log('result from post request ===> ', result);
+      setProducts(result.data);
+      setCUCompTrigger(false);
+      resetInputs();
     }
   };
+
 
   return (
     <div className='add-prod-form'>

@@ -42,14 +42,14 @@ export const putReq = async (body, url) => {
   }
 };
 
-export const deleteReq = async (url) => {
+export const deleteReq = async (url, id) => {
   const options = {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json',
     },
   };
-  const response = await fetch(`http://localhost:5000/${url}`, options);
+  const response = await fetch(`http://localhost:5000/${url}/${id}`, options);
   if (response.ok) {
     const dataFromPostRequest = await response.json();
     return dataFromPostRequest;
