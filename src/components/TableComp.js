@@ -4,12 +4,11 @@ import { MdDeleteOutline, MdRepeat } from 'react-icons/md';
 import { deleteReq, getReq } from '../helpers/http';
 
 function TableComp() {
-  const { products, setProducts, selectedFilter, setSelectedFilter } = useContext(MainContext);
+  const { products, setProducts, selectedFilter, setCUCompTrigger, setProdToUpdate } = useContext(MainContext);
 
   useEffect(() => {
     const getProducts = async () => {
       const result = await getReq('getProducts');
-      console.log('result ===', result);
       if (result.error === false) {
         setProducts(result.data);
       }
@@ -41,7 +40,7 @@ function TableComp() {
           <th>Kaina</th>
           <th>Aprasymas</th>
           <th>Kategorijos</th>
-          <th>btns</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +54,13 @@ function TableComp() {
               <td>{prod.categories.join(', ')}</td>
               <td className='single-prod-btns'>
                 <MdDeleteOutline className='delete-btn' onClick={() => deleteProduct(prod)} />
-                <MdRepeat className='update-btn' />
+                <MdRepeat
+                  className='update-prod-btn'
+                  onClick={() => {
+                    setProdToUpdate({ ...prod, _id: prod._id });
+                    setCUCompTrigger(true);
+                  }}
+                />
               </td>
             </tr>
           ))}

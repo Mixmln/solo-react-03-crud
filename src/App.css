@@ -64,7 +64,19 @@ p {
   padding: 10px 20px;
   flex-grow: 5;
   margin-top: 20px;
-  border: 1px solid green;
+  border: 2px solid green;
+  border-radius: 10px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.update-prod-form {
+  padding: 10px 20px;
+  flex-grow: 5;
+  margin-top: 20px;
+  border: 2px solid rgb(201, 201, 3);
   border-radius: 10px;
   height: 500px;
   display: flex;
@@ -80,6 +92,22 @@ p {
   background-color: rgba(4, 226, 4, 0.479);
   color: rgba(0, 0, 0, 0.514);
   font-size: 18px;
+}
+
+.update-btn {
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(211, 226, 4, 0.24);
+  color: rgba(0, 0, 0, 0.514);
+  font-size: 18px;
+}
+
+.update-btn:hover {
+  transition: 0.3s ease-in-out;
+  background-color: rgba(211, 226, 4, 0.808);
+  color: rgba(0, 0, 0, 0.814);
 }
 
 .add-btn:hover {
@@ -161,7 +189,7 @@ th {
   cursor: pointer;
 }
 
-.update-btn {
+.update-prod-btn {
   padding: 3px;
   border-radius: 5px;
   background-color: gold;
@@ -169,7 +197,7 @@ th {
   cursor: pointer;
 }
 
-.update-btn:hover,
+.update-prod-btn:hover,
 .delete-btn:hover {
   transform: scale(1.05);
   transition: 0.2s ease-in-out;

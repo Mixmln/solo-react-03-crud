@@ -11,6 +11,8 @@ function App() {
 
   const [CUCompTrigger, setCUCompTrigger] = useState(false);
 
+  const [prodToUpdate, setProdToUpdate] = useState(null);
+
   const states = {
     products,
     setProducts,
@@ -18,6 +20,8 @@ function App() {
     setSelectedFilter,
     CUCompTrigger,
     setCUCompTrigger,
+    prodToUpdate,
+    setProdToUpdate,
   };
 
   return (

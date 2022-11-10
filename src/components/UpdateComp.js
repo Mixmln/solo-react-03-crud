@@ -1,9 +1,9 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import MainContext from '../context/MainContext';
-import { postReq } from '../helpers/http';
+import { putReq } from '../helpers/http';
 
-function AddProdComp() {
-  const { setProducts, setCUCompTrigger } = useContext(MainContext);
+function UpdateComp() {
+  const { setProducts, setCUCompTrigger, prodToUpdate } = useContext(MainContext);
 
   const titleRef = useRef();
   const priceRef = useRef();
@@ -15,18 +15,6 @@ function AddProdComp() {
   const nutsCatRef = useRef();
   const sweetsCatRef = useRef();
   const descriptionRef = useRef();
-
-  let checked = [];
-
-  const handleCheckBoxes = (ref) => {
-    if (ref.current.checked) {
-      if (checked.includes(ref.current.name)) return;
-      checked.push(ref.current.name);
-    } else {
-      const filtered = checked.filter((item) => item !== ref.current.name);
-      return (checked = filtered);
-    }
-  };
 
   const resetInputs = () => {
     titleRef.current.value = '';
@@ -41,26 +29,60 @@ function AddProdComp() {
     descriptionRef.current.value = '';
   };
 
-  const addNewProd = async () => {
-    const newProd = {
+  let checked = [];
+
+  useEffect(() => {
+    titleRef.current.value = prodToUpdate.title;
+    priceRef.current.value = prodToUpdate.price;
+    descriptionRef.current.value = prodToUpdate.description;
+    foodCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === foodCatRef.current.name ? true : false));
+    fruitCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === fruitCatRef.current.name ? true : false));
+    dairyCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === dairyCatRef.current.name ? true : false));
+    toyCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === toyCatRef.current.name ? true : false));
+    weighedCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === weighedCatRef.current.name ? true : false));
+    nutsCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === nutsCatRef.current.name ? true : false));
+    sweetsCatRef.current.checked = prodToUpdate.categories.find((cat) => (cat === sweetsCatRef.current.name ? true : false));
+    if (foodCatRef.current.checked) checked.push(foodCatRef.current.name);
+    if (fruitCatRef.current.checked) checked.push(fruitCatRef.current.name);
+    if (dairyCatRef.current.checked) checked.push(dairyCatRef.current.name);
+    if (toyCatRef.current.checked) checked.push(toyCatRef.current.name);
+    if (weighedCatRef.current.checked) checked.push(weighedCatRef.current.name);
+    if (nutsCatRef.current.checked) checked.push(nutsCatRef.current.name);
+    if (sweetsCatRef.current.checked) checked.push(sweetsCatRef.current.name);
+  }, [prodToUpdate]);
+
+  const handleCheckBoxes = (ref) => {
+    if (ref.current.checked) {
+      if (checked.includes(ref.current.name)) return;
+      checked.push(ref.current.name);
+    } else {
+      const filtered = checked.filter((item) => item !== ref.current.name);
+      return (checked = filtered);
+    }
+  };
+
+  const updateProd = async () => {
+    const updatedProd = {
+      _id: prodToUpdate._id,
       title: titleRef.current.value,
       price: priceRef.current.value,
       categories: checked,
       description: descriptionRef.current.value,
     };
-    if (!newProd.title || !newProd.price || newProd.categories === []) return;
-    const result = await postReq(newProd, 'createProd');
+    if (!updatedProd.title || !updatedProd.price || updatedProd.categories === []) return;
+    const result = await putReq(updatedProd, 'updateProd');
     if (result.error === false) {
-      console.log('result from post request ===> ', result);
+      resetInputs();
       setProducts(result.data);
       setCUCompTrigger(false);
-      resetInputs();
+    } else {
+      console.log('Kazkas negerai');
     }
   };
 
   return (
-    <div className='add-prod-form'>
-      <h2>Produkto sukurimas</h2>
+    <div className='update-prod-form'>
+      <h2>Produkto atnaujinimas</h2>
       <div className='text-left'>
         <p>Pavadinimas</p>
         <input ref={titleRef} className='text-input' type='text' name='title' placeholder='Produkto pavadinimas' />
@@ -104,11 +126,11 @@ function AddProdComp() {
         <p>Aprasymas</p>
         <input ref={descriptionRef} className='text-input' type='text' placeholder='Produkto aprasymas' />
       </div>
-      <button className='add-btn' onClick={addNewProd}>
-        Sukurti
+      <button className='update-btn' onClick={updateProd}>
+        Atanujinti
       </button>
     </div>
   );
 }
 
-export default AddProdComp;
+export default UpdateComp;
