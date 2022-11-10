@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainContext from './context/MainContext';
+import MainPage from './pages/MainPage';
+import { useState } from 'react';
 
 function App() {
+  const [products, setProducts] = useState([]);
+
+  const [selectedFilter, setSelectedFilter] = useState('Visi produktai');
+
+  const states = {
+    products,
+    setProducts,
+    selectedFilter,
+    setSelectedFilter,
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <MainContext.Provider value={states}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<MainPage></MainPage>}></Route>
+          </Routes>
+        </BrowserRouter>
+      </MainContext.Provider>
     </div>
   );
 }
